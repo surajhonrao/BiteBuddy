@@ -225,6 +225,25 @@ public class Book extends HttpServlet{
 		 else if(req.getParameter("SearchEvent") != null) {
 			 resp.sendRedirect("LiveEvents.jsp?searchevents="+req.getParameter("liveevent"));
 		 }
+		 else if (req.getParameter("paynow")!=null) {
+			
+			 String e_name=req.getParameter("eventName");
+			 System.out.println(e_name);
+			 String total_price=req.getParameter("totalprise");
+			 System.out.println(total_price);
+			 String id=(String)se.getAttribute("id");
+			 System.out.println(id);
+			 
+			 String status=bk.insertdetail(e_name,total_price,id);
+			 
+			 if (status.equals("success")) {
+				req.setAttribute("ststus", "Event Booked Successfully");
+				req.getRequestDispatcher("LiveEvents.jsp").forward(req, resp);
+			}else {
+				req.setAttribute("ststus", "Event Booked Failed");
+				req.getRequestDispatcher("LiveEvents.jsp").forward(req, resp);
+			}
+		}
 		 
 		}
    }

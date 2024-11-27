@@ -557,8 +557,15 @@ public class Booking {
 	public ArrayList<LiveEvents> liveevents(String city){
 		ArrayList<LiveEvents> al=new ArrayList<LiveEvents>();
 		
-		String q="Select * from liveevent where place=?";
+		String q="Select * from liveevent where place=? and Date>CURDATE()";
+		String deleteQuery="delete from liveevent where Date<CURDATE()";
 		try {
+			
+			 try (PreparedStatement deleteStmt = con.prepareStatement(deleteQuery)) {
+		            int rowsDeleted = deleteStmt.executeUpdate();
+		            System.out.println(rowsDeleted + " old events deleted.");
+		        }
+
 			PreparedStatement ps=con.prepareStatement(q);
 			ps.setString(1, city);
 			ResultSet rs=ps.executeQuery();
@@ -603,4 +610,23 @@ public class Booking {
 		}
 		return al;
 	}
+	
+	 public String insertdetail(String name,String price,String id) {
+		 String status="fail";
+		 String q="insert into bookedevent(srno,E_name,T_price,User_id)values(0,?,?,?)";
+		 try {
+			PreparedStatement ps=con.prepareStatement(q);
+			ps.setString(1, name);
+			ps.setString(2, price);
+			ps.setString(3, id);;
+			int row=ps.executeUpdate();
+			if (row>1) {
+				status="success";
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 return status;
+	 }
 }

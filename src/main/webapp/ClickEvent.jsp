@@ -154,7 +154,7 @@ li img{
 }
 #div4{
 	background-color: white;
-	width: 650px;
+	width: 750px;
 	margin: 50px -160px;
 	border-radius: 10px;
 }
@@ -188,33 +188,64 @@ a{
  color: black;
  font-size: medium;
 }
-#div6 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Black with opacity */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensures it appears above other elements */
-    display: none; /* Hidden by default */
-   
+#div6{
+	padding-top:10px;
+	margin:50px -160px;
+	background-color:rgba(255, 255, 255, 0.9);
+	border-radius:10px;
+	box-shadow:0px 0px 10px;
+	width: 600px;
+	
+}
+#imgdiv{
+	margin-left: 50px;
+}
+#paylogo1,#paylogo2,#paylogo3,#paylogo4{
+	margin-right: 15px;
+}
+#input1{
+	height:35px;
+	width: 350px;
+	border-radius:5px;
+}
+#card-section {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+    max-width: 400px;
+    margin: 0 auto; 
 }
 
-/* Content inside the div */
-#div6 > .content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 50%; /* Adjust width as needed */
-    max-width: 500px; /* Limit maximum width */
-    box-sizing: border-box;
-     margin: 50px 250px;
+#card-section label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; 
+    font-family: Arial, sans-serif;
 }
+
+#card-section input {
+    width: 100%; 
+    height: 40px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+#card-section input:focus {
+    border-color: #4b0082;
+    outline: none;
+    box-shadow: 0 0 5px rgba(75, 0, 130, 0.5);
+}
+
 </style>
 <body>
 
@@ -261,20 +292,46 @@ a{
        <button id="button2" class="flex-button">
     <a href="#" id="plusbtn" style="margin-right: 10px;" onclick="increment(event)">+</a>
     <span id="countDisplay">1</span>
-    <a href="#" style="margin-left: 10px;" id="minusbtn" onclick="decrement(event)">-</a>
+    <a href="#" style="margin-left: 10px; height:20px" id="minusbtn" onclick="decrement(event)" >-</a>
 </button> 
   </div>
         <div id="div5"> 
         <input type="hidden" value="<%= li.getPrise() %>" id="prise">
-       <h3 id="totalPriceDisplay">Total Price: ₹<span id="priceValue"></span></h3>
+       <h3 id="totalPriceDisplay">Total Price: ₹<span id="priceValue" name="totalprise"></span></h3>
         <button id="bookButton">Book Here</button>
         </div>
     	</div>
-    	<div id="div6" style="display: none ;">
-    <h2 style="color: white;">select the payment option</h2><br>
-    <h2 style="color: white;">Phone Pe</h2>
-  <input type="checkbox">
-    	</div>
+    	<div id="div6" style="display: none;">
+    <h4 style="color: black; padding-left: 10px">Select the payment option</h4><br>
+    <div id="imgdiv" style="display: flex; gap: 15px;">
+        <img alt="PhonePe" id="paylogo1" src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/phonepe-icon.png" height="30px" width="30px" style="cursor: pointer;">
+        <img alt="Google Pay" id="paylogo2" src="https://img.icons8.com/?size=48&id=am4ltuIYDpQ5&format=png" height="30px" width="30px" style="cursor: pointer;">
+        <img alt="Paytm" id="paylogo3" src="https://img.icons8.com/?size=80&id=Aub11Fs5DJVg&format=png" height="30px" width="30px" style="cursor: pointer;">
+        <img alt="Credit/Debit Card" id="paylogo4" src="https://img.icons8.com/?size=48&id=1AzdGyrT9jI0&format=png" height="30px" width="30px" style="cursor: pointer;">
+    </div>
+
+    <div id="payment-form" style="display: none; margin-top: 20px;">
+        <h5>Enter Payment Details:</h5>
+            <div id="upi-section" style="display: none;">
+                <label for="upiId">UPI ID:</label>
+                <input id="upiId" type="text" placeholder="Example: 1234567890@upi" required>
+            </div>
+            <div id="card-section" style="display: none;">
+                <label for="cardNumber">Card Number:</label>
+                <input id="cardNumber" type="text" placeholder="Card Number" required>
+                <label for="expiryDate">Expiry Date:</label>
+                <input id="expiryDate" type="month" required>
+                   <label for="cvv">CW</label>
+                <input id="cvv" type="password" placeholder="CVV" required>
+            </div>
+             <form  action="book" method="post">
+             	<input type="hidden" name="eventName" value="<%=li.getName() %>">
+             	 <input type="hidden" value="<%= li.getPrise() %>" id="prise" name="totalprise">
+            <button  name="paynow">Pay Now</button>
+        </form>
+    </div>
+</div>
+
     	</section>
     	<footer >
     	<div id="div3">
@@ -300,6 +357,20 @@ a{
         });
     });
     
+    document.addEventListener("DOMContentLoaded", () => {
+        const bookButtons = document.querySelectorAll("#bookButton");
+        bookButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                const section1 = event.target.closest("section");
+                const div1 = section1.querySelector("#div4");
+                const div4 = section1.querySelector("#div6");
+
+                // Hide div1 and show div4
+                if (div1) div1.style.display = "none";
+                if (div4) div4.style.display = "block";
+            });
+        });
+    });
     
     let count = 1;
 
@@ -339,7 +410,47 @@ a{
 	let btn=  document.getElementById("bookButton")
 	btn.addEventListener("click",()=>{
 		div6.style.display="block"
+	});
+
+    let btnn=  document.getElementById("paylogo1")
+	let div7=  document.getElementById("div7")
+	btnn.addEventListener("click",()=>{
+		div7.style.display="block"
 	});	
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const paymentMethods = {
+            "paylogo1": "upi-section",
+            "paylogo2": "upi-section",
+            "paylogo3": "upi-section",
+            "paylogo4": "card-section"
+        };
+
+        document.querySelectorAll("#imgdiv img").forEach(logo => {
+            logo.addEventListener("click", () => {
+                const selectedSection = paymentMethods[logo.id];
+                document.querySelectorAll("#payment-form div").forEach(div => div.style.display = "none");
+                if (selectedSection) {
+                    document.getElementById(selectedSection).style.display = "block";
+                }
+                document.getElementById("payment-form").style.display = "block";
+            });
+        });
+    });
+
+    function processPayment() {
+        const upiId = document.getElementById("upiId").value;
+        const cardNumber = document.getElementById("cardNumber").value;
+
+        if ((upiId && document.getElementById("upi-section").style.display === "block") ||
+            (cardNumber && document.getElementById("card-section").style.display === "block")) {
+            alert("Payment Successful! Event Booked Successfully. Thank You!");
+            // Redirect or additional logic can be added here.
+        } else {
+            alert("Please fill in the required payment details.");
+        }
+    }
+
 	    </script>
 </body>
 </html>
